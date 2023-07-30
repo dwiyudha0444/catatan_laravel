@@ -1,3 +1,5 @@
+MIDTRANS IN LARAVEL 10
+
 1. composer require midtrans/midtrans-php
 2. pada .env
 
@@ -19,6 +21,7 @@ return [
 ];
 
 4. buat model dan controller
+
 php artisan make:model Order -mc
 php artisan make:controller client/OrderController --resource
 
