@@ -22,7 +22,7 @@ MIDTRANS IN LARAVEL 10
 
 4. buat model dan controller
 
-    php artisan make:model Order -mc
+    php artisan make:model Order
     php artisan make:controller client/OrderController --resource
 
 5. buat migrations tabel
