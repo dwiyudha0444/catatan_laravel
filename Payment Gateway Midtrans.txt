@@ -28,7 +28,7 @@ MIDTRANS IN LARAVEL 10
 5. buat migrations tabel
 
     php artisan make:migration create_order_table
-    php artisan migrate       
+    php artisan migrate  /  php artisan migrate:refresh   
 
     Schema::create('order', function (Blueprint $table) {
             $table->id();
@@ -39,4 +39,4 @@ MIDTRANS IN LARAVEL 10
             $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
             $table->timestamps();
         });
-
+    
