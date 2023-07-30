@@ -25,6 +25,46 @@ MIDTRANS IN LARAVEL 10
     php artisan make:model Order
     php artisan make:controller client/OrderController --resource
 
+    # model : Order
+            //tambahkan kode untuk mapping ke tabel film
+        protected $table = 'order';
+        //mapping ke kolom fieldnya
+        protected $fillable = ['nama','no_wa','qty','total_harga','status'];
+
+    # controller : OrderController
+    public function checkout(Request $request)
+    {
+        
+        $request->request->add(['total_harga' => $request->qty * 10000, 'status' =>'unpaid']);
+        // dd($request->all());
+        $order = Order::create($request->all());
+     
+         //SAMPLE REQUEST START HERE
+ 
+         // Set your Merchant Server Key
+         \Midtrans\Config::$serverKey = config('midtrans.server_key');
+         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+         \Midtrans\Config::$isProduction = false;
+         // Set sanitization on (default)
+         \Midtrans\Config::$isSanitized = true;
+         // Set 3DS transaction for credit card to true
+         \Midtrans\Config::$is3ds = true;
+ 
+         $params = array(
+             'transaction_details' => array(
+                 'order_id' => $order->id,
+                 'gross_amount' => $order->total_harga,
+             ),
+             'customer_details' => array(
+                 'nama' => $request->nama,
+                 'no_wa' => $request->no_wa,
+             ),
+         );
+ 
+         $snapToken = \Midtrans\Snap::getSnapToken($params);
+        
+         return view('client.payment.checkout',compact('snapToken','order'));
+
 5. buat migrations tabel
 
     php artisan make:migration create_order_table
@@ -39,4 +79,40 @@ MIDTRANS IN LARAVEL 10
             $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
             $table->timestamps();
         });
+
+6. checkout
+    head
+
+    <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+    <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
+
+    script
+        <script type="text/javascript">
+        // For example trigger on button clicked, or any time you need
+        var payButton = document.getElementById('pay-button');
+        payButton.addEventListener('click', function () {
+          // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+          window.snap.pay('{{ $snapToken }}', {
+            onSuccess: function(result){
+              /* You may add your own implementation here */
+              alert("payment success!"); console.log(result);
+            },
+            onPending: function(result){
+              /* You may add your own implementation here */
+              alert("wating your payment!"); console.log(result);
+            },
+            onError: function(result){
+              /* You may add your own implementation here */
+              alert("payment failed!"); console.log(result);
+            },
+            onClose: function(){
+              /* You may add your own implementation here */
+              alert('you closed the popup without finishing the payment');
+            }
+          })
+        });
+      </script>
     
