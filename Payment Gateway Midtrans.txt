@@ -81,7 +81,11 @@ MIDTRANS IN LARAVEL 10
         });
 
 6. checkout
-    head
+    # button id
+
+    id="pay-button"
+
+    # head
 
     <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
     <script type="text/javascript"
@@ -89,7 +93,7 @@ MIDTRANS IN LARAVEL 10
       data-client-key="{{ config('midtrans.client_key') }}"></script>
     <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
 
-    script
+    # script
         <script type="text/javascript">
         // For example trigger on button clicked, or any time you need
         var payButton = document.getElementById('pay-button');
