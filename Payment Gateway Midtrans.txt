@@ -3,26 +3,26 @@ MIDTRANS IN LARAVEL 10
 1. composer require midtrans/midtrans-php
 2. pada .env
 
-# API KEY MIDTRANS
-MIDTRANS_MERCHANT_ID=***
-MIDTRANS_CLIENT_KEY=***
-MIDTRANS_SERVER_KEY=***
+    # API KEY MIDTRANS
+    MIDTRANS_MERCHANT_ID=***
+    MIDTRANS_CLIENT_KEY=***
+    MIDTRANS_SERVER_KEY=***
 
 3. tambahkan config midtrans.php
 
-<?php
-
-return [
-
-    'merchant_id' => env('MIDTRANS_MERCHANT_ID'),
-    'client_key' => env('MIDTRANS_CLIENT_KEY'),
-    'server_key' => env('MIDTRANS_SERVER_KEY'),
-
-];
+    <?php
+    
+    return [
+    
+        'merchant_id' => env('MIDTRANS_MERCHANT_ID'),
+        'client_key' => env('MIDTRANS_CLIENT_KEY'),
+        'server_key' => env('MIDTRANS_SERVER_KEY'),
+    
+    ];
 
 4. buat model dan controller
 
-php artisan make:model Order -mc
-php artisan make:controller client/OrderController --resource
+    php artisan make:model Order -mc
+    php artisan make:controller client/OrderController --resource
 
 
